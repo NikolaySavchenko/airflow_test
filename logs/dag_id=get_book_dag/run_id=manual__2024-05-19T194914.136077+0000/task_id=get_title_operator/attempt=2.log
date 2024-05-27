@@ -1,0 +1,41 @@
+[2024-05-19T19:54:30.250+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2024-05-19T19:54:30.303+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: get_book_dag.get_title_operator manual__2024-05-19T19:49:14.136077+00:00 [queued]>
+[2024-05-19T19:54:30.324+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: get_book_dag.get_title_operator manual__2024-05-19T19:49:14.136077+00:00 [queued]>
+[2024-05-19T19:54:30.325+0000] {taskinstance.py:2306} INFO - Starting attempt 2 of 2
+[2024-05-19T19:54:30.367+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): get_title_operator> on 2024-05-19 19:49:14.136077+00:00
+[2024-05-19T19:54:30.382+0000] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=570) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-05-19T19:54:30.386+0000] {standard_task_runner.py:63} INFO - Started process 572 to run task
+[2024-05-19T19:54:30.392+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'get_book_dag', 'get_title_operator', 'manual__2024-05-19T19:49:14.136077+00:00', '--job-id', '24', '--raw', '--subdir', 'DAGS_FOLDER/get_book_dag.py', '--cfg-path', '/tmp/tmpisk6mfyl']
+[2024-05-19T19:54:30.395+0000] {standard_task_runner.py:91} INFO - Job 24: Subtask get_title_operator
+[2024-05-19T19:54:30.541+0000] {task_command.py:426} INFO - Running <TaskInstance: get_book_dag.get_title_operator manual__2024-05-19T19:49:14.136077+00:00 [running]> on host 60554ca90225
+[2024-05-19T19:54:30.795+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='get_book_dag' AIRFLOW_CTX_TASK_ID='get_title_operator' AIRFLOW_CTX_EXECUTION_DATE='2024-05-19T19:49:14.136077+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-05-19T19:49:14.136077+00:00'
+[2024-05-19T19:54:30.808+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2024-05-19T19:54:30.899+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2024-05-19T19:54:30.906+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/get_book_dag.py", line 29, in get_title_func
+    book_title = soup_content.select_one('table h1').text.split('::')[0]
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'tuple' object has no attribute 'select_one'
+[2024-05-19T19:54:30.957+0000] {taskinstance.py:1206} INFO - Marking task as FAILED. dag_id=get_book_dag, task_id=get_title_operator, run_id=manual__2024-05-19T19:49:14.136077+00:00, execution_date=20240519T194914, start_date=20240519T195430, end_date=20240519T195430
+[2024-05-19T19:54:30.998+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 24 for task get_title_operator ('tuple' object has no attribute 'select_one'; 572)
+[2024-05-19T19:54:31.047+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2024-05-19T19:54:31.101+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-05-19T19:54:31.105+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

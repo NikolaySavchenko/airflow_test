@@ -1,0 +1,41 @@
+[2024-05-19T19:29:40.807+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2024-05-19T19:29:40.882+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: get_book_dag.get_soup_operator manual__2024-05-19T19:24:33.499656+00:00 [queued]>
+[2024-05-19T19:29:40.909+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: get_book_dag.get_soup_operator manual__2024-05-19T19:24:33.499656+00:00 [queued]>
+[2024-05-19T19:29:40.911+0000] {taskinstance.py:2306} INFO - Starting attempt 2 of 2
+[2024-05-19T19:29:40.961+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): get_soup_operator> on 2024-05-19 19:24:33.499656+00:00
+[2024-05-19T19:29:40.978+0000] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=265) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-05-19T19:29:40.982+0000] {standard_task_runner.py:63} INFO - Started process 267 to run task
+[2024-05-19T19:29:40.981+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'get_book_dag', 'get_soup_operator', 'manual__2024-05-19T19:24:33.499656+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/get_book_dag.py', '--cfg-path', '/tmp/tmp07lu_9hn']
+[2024-05-19T19:29:40.984+0000] {standard_task_runner.py:91} INFO - Job 16: Subtask get_soup_operator
+[2024-05-19T19:29:41.181+0000] {task_command.py:426} INFO - Running <TaskInstance: get_book_dag.get_soup_operator manual__2024-05-19T19:24:33.499656+00:00 [running]> on host 60554ca90225
+[2024-05-19T19:29:41.512+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='get_book_dag' AIRFLOW_CTX_TASK_ID='get_soup_operator' AIRFLOW_CTX_EXECUTION_DATE='2024-05-19T19:24:33.499656+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-05-19T19:24:33.499656+00:00'
+[2024-05-19T19:29:41.516+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2024-05-19T19:29:42.394+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2024-05-19T19:29:42.401+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/get_book_dag.py", line 21, in get_book_details_func
+    check_for_redirect_func(response)
+  File "/opt/airflow/dags/get_book_dag.py", line 14, in check_for_redirect_func
+    raise requests.exceptions.HTTPError
+requests.exceptions.HTTPError
+[2024-05-19T19:29:42.558+0000] {taskinstance.py:1206} INFO - Marking task as FAILED. dag_id=get_book_dag, task_id=get_soup_operator, run_id=manual__2024-05-19T19:24:33.499656+00:00, execution_date=20240519T192433, start_date=20240519T192940, end_date=20240519T192942
+[2024-05-19T19:29:42.667+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 16 for task get_soup_operator (; 267)
+[2024-05-19T19:29:42.784+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2024-05-19T19:29:42.843+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
