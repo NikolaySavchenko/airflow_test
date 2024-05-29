@@ -4,9 +4,12 @@ from airflow import DAG
 
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
+from sqlalchemy import create_engine
 from bs4 import BeautifulSoup
 from pathvalidate import sanitize_filename
 from random import randint
+
+engine = create_engine('clickhouse+native://airflow:airflow@localhost:9000/default')
 
 
 def check_for_redirect_func(response):
@@ -25,19 +28,14 @@ def get_book_details_func(book_id=randint(3, 1000)):
     return (book_title, book_author)
 
 
-def get_title_func(**context):
+def add_func(**context):
     book_det = context['task_instance'].xcom_pull(task_ids='get_soup_operator')
     title = f'{sanitize_filename(book_det[0].strip())}'
-    return title
-
-
-def get_author_func(**context):
-    title = context['task_instance'].xcom_pull(task_ids='get_title_operator')
-    book_det = context['task_instance'].xcom_pull(task_ids='get_soup_operator')
     author = book_det[1].strip()
-    data_ex = pd.DataFrame({'Название': [title], 'Автор': [author]})
-    print(data_ex)
-    # data_ex.to_excel('file.xlsx', sheet_name='Sheet1', index=False)
+    data = {'Author': [author], 'Title': [title]}
+    df = pd.DataFrame(data)
+    table_name = 'Books'
+    df.to_sql(table_name, engine, if_exists='append', index=False)
 
 
 default_args = {
@@ -63,18 +61,11 @@ get_soup_operator = PythonOperator(
     provide_context=True
 )
 
-get_title_operator = PythonOperator(
-    task_id='get_title_operator',
+add_operator = PythonOperator(
+    task_id='add_operator',
     dag=dag,
-    python_callable=get_title_func,
+    python_callable=add_func,
     provide_context=True
 )
 
-get_author_operator = PythonOperator(
-    task_id='get_author_operator',
-    dag=dag,
-    python_callable=get_author_func,
-    provide_context=True
-)
-
-get_soup_operator >> get_title_operator >> get_author_operator
+get_soup_operator >> add_operator

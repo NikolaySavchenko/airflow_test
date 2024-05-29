@@ -6,4 +6,4 @@ openpyxl==3.1.*
 lxml==5.2.*
 clickhouse-sqlalchemy==0.3.*
 clickhouse-connect==0.7.*
-
+pandahouse==0.2.*
